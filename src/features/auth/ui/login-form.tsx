@@ -27,7 +27,11 @@ export function LoginForm() {
           message: 'Tizimga muvaffaqiyatli kirdingiz',
           color: 'green',
         });
-        navigate('/');
+        
+        // Kuting state update bo'lishi uchun va keyin navigate qil
+        setTimeout(() => {
+          navigate('/', { replace: true });
+        }, 300);
       },
       onError: (error: unknown) => {
         let errorMessage = 'Nimadadir xato yuz berdi';

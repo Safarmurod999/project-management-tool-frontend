@@ -1,0 +1,23 @@
+import { Container, Title, Text } from '@mantine/core';
+
+export function CalendarPage() {
+  return (
+    <Container size="xl" py="md">
+      <Title order={1} size={32} fw={700} mb={4}>
+        📅 Taqvim
+      </Title>
+      <Text c="dimmed" size="sm" mb="xl">
+        Loyiha va vazifalar taqvimi
+      </Text>
+      
+      <div style={{
+        padding: '40px',
+        textAlign: 'center',
+        backgroundColor: '#f6f8fa',
+        borderRadius: '8px',
+      }}>
+        <Text c="dimmed">Bu sahifa kelajakda tayyorlanmoqda...</Text>
+      </div>
+    </Container>
+  );
+}
