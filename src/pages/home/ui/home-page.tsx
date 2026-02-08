@@ -1,5 +1,5 @@
 import { Container, Title, Text, Stack, Card, Group, Button } from '@mantine/core';
-import { LayoutGrid, Plus } from 'lucide-react';
+import { LayoutGrid, Plus, BarChart3, CheckCircle2, BookOpen, Target, Bell } from 'lucide-react';
 
 export function HomePage() {
   return (
@@ -24,13 +24,14 @@ export function HomePage() {
       </Group>
 
       <Stack gap="lg">
-        <Card withBorder padding="lg" radius="lg" bg="white">
+        <Card withBorder padding="lg" radius="lg">
           <Card.Section withBorder inheritPadding py="md">
             <Group justify="space-between" align="center">
               <div>
-                <Title order={3} size={18}>
-                  📊 Sizning Loyihalar
-                </Title>
+                <Group gap={8}>
+                  <BarChart3 size={20} color="var(--mantine-color-blue-6)" />
+                  <Title order={3} size={18}>Sizning Loyihalar</Title>
+                </Group>
                 <Text c="dimmed" size="sm">
                   Hamkasblar bilan ishlayotgan loyihalar
                 </Text>
@@ -50,13 +51,14 @@ export function HomePage() {
           </Text>
         </Card>
 
-        <Card withBorder padding="lg" radius="lg" bg="white">
+        <Card withBorder padding="lg" radius="lg">
           <Card.Section withBorder inheritPadding py="md">
             <Group justify="space-between" align="center">
               <div>
-                <Title order={3} size={18}>
-                  ✅ Mening Vazifalarim
-                </Title>
+                <Group gap={8}>
+                  <CheckCircle2 size={20} color="var(--mantine-color-blue-6)" />
+                  <Title order={3} size={18}>Mening Vazifalarim</Title>
+                </Group>
                 <Text c="dimmed" size="sm">
                   Rozilik olish uchun mo'ljallangan vazifalar
                 </Text>
@@ -83,18 +85,9 @@ export function HomePage() {
             gap: 16,
           }}
         >
-          <Card withBorder padding="lg" radius="lg" bg="white">
+          <Card withBorder padding="lg" radius="lg">
             <Group justify="center" mb="md">
-              <div
-                style={{
-                  fontSize: 32,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                📚
-              </div>
+              <BookOpen size={32} color="var(--mantine-color-blue-6)" />
             </Group>
             <Title order={4} ta="center" mb={4}>
               Qo'llanma va Resurslar
@@ -104,18 +97,9 @@ export function HomePage() {
             </Text>
           </Card>
 
-          <Card withBorder padding="lg" radius="lg" bg="white">
+          <Card withBorder padding="lg" radius="lg">
             <Group justify="center" mb="md">
-              <div
-                style={{
-                  fontSize: 32,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                🎯
-              </div>
+              <Target size={32} color="var(--mantine-color-blue-6)" />
             </Group>
             <Title order={4} ta="center" mb={4}>
               Mening Statistikam
@@ -125,18 +109,9 @@ export function HomePage() {
             </Text>
           </Card>
 
-          <Card withBorder padding="lg" radius="lg" bg="white">
+          <Card withBorder padding="lg" radius="lg">
             <Group justify="center" mb="md">
-              <div
-                style={{
-                  fontSize: 32,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                🔔
-              </div>
+              <Bell size={32} color="var(--mantine-color-blue-6)" />
             </Group>
             <Title order={4} ta="center" mb={4}>
               Oxirgi Xabarlar
