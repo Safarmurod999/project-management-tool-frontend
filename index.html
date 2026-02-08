@@ -5,6 +5,16 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>project-management-tool-frontend</title>
+    <script>
+      (() => {
+        try {
+          const theme = localStorage.getItem('mantine-color-scheme-value') || 'light';
+          document.documentElement.setAttribute('data-mantine-color-scheme', theme);
+        } catch {
+          document.documentElement.setAttribute('data-mantine-color-scheme', 'light');
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

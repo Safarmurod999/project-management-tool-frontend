@@ -1,6 +1,6 @@
-import type { ReactNode } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import type { LucideIcon } from 'lucide-react';
+import type { ReactNode } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import type { LucideIcon } from "lucide-react";
 import {
   Home,
   ListChecks,
@@ -9,20 +9,37 @@ import {
   Users,
   Settings,
   LogOut,
-} from 'lucide-react';
-import { useAuthStore } from '@/entities/user';
-import { ROUTES } from '@/shared/config';
-import styles from './app-layout.module.scss';
+  Briefcase,
+  Moon,
+  Sun,
+  User,
+} from "lucide-react";
+import {
+  AppShell,
+  Box,
+  Group,
+  TextInput,
+  UnstyledButton,
+  Stack,
+  Divider,
+  Text,
+  Avatar,
+  Menu,
+  useMantineColorScheme,
+} from "@mantine/core";
+import { useAuthStore } from "@/entities/user";
+import { ROUTES } from "@/shared/config";
+import styles from "./app-layout.module.scss";
 
 interface SidebarMenuItemType {
   id: string;
   label: string;
   icon: LucideIcon;
   path: string;
-  onClick?: () => void;
 }
 
 interface SidebarSection {
+  id: number;
   title?: string;
   items: SidebarMenuItemType[];
 }
@@ -33,48 +50,50 @@ interface AppLayoutProps {
 
 const menuSections: SidebarSection[] = [
   {
-    title: 'Bosh Menyu',
+    id: 0,
+    title: "Bosh Menyu",
     items: [
       {
-        id: 'home',
-        label: 'Asosiy',
+        id: "home",
+        label: "Asosiy",
         icon: Home,
         path: ROUTES.HOME,
       },
       {
-        id: 'projects',
-        label: 'Loyihalar',
+        id: "projects",
+        label: "Loyihalar",
         icon: FolderOpen,
-        path: '/projects',
+        path: "/projects",
       },
       {
-        id: 'tasks',
-        label: 'Vazifalar',
+        id: "tasks",
+        label: "Vazifalar",
         icon: ListChecks,
-        path: '/tasks',
+        path: "/tasks",
       },
       {
-        id: 'calendar',
-        label: 'Taqvim',
+        id: "calendar",
+        label: "Taqvim",
         icon: Calendar,
-        path: '/calendar',
+        path: "/calendar",
       },
     ],
   },
   {
-    title: 'Boshqarish',
+    id: 1,
+    title: "Boshqarish",
     items: [
       {
-        id: 'team',
-        label: 'Jamoa',
+        id: "team",
+        label: "Jamoa",
         icon: Users,
-        path: '/team',
+        path: "/team",
       },
       {
-        id: 'settings',
-        label: 'Sozlamalar',
+        id: "settings",
+        label: "Sozlamalar",
         icon: Settings,
-        path: '/settings',
+        path: "/settings",
       },
     ],
   },
@@ -83,88 +102,139 @@ const menuSections: SidebarSection[] = [
 export function AppLayout({ children }: AppLayoutProps) {
   const location = useLocation();
   const navigate = useNavigate();
-  const { logout } = useAuthStore();
+  const { logout, user } = useAuthStore();
+  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
 
   const isActive = (path: string) => location.pathname === path;
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
+    navigate("/login");
   };
 
   return (
-    <div className={styles.root}>
-      {/* Header */}
-      <header className={styles.header}>
-        <div className={styles.headerContent}>
-          <Link to="/" className={styles.logo}>
-            <div>📋</div>
-            <span>ProManager</span>
-          </Link>
+    <AppShell
+      header={{ height: 60 }}
+      navbar={{ width: 260, breakpoint: "sm" }}
+      padding="md">
+      <AppShell.Header className={styles.header}>
+        <Group justify="space-between" align="center" h="100%" px="md">
+          <Group gap={10} flex={0}>
+            <Link to="/" className={styles.logo}>
+              <Briefcase size={22} color="var(--mantine-color-blue-6)" />
+              <span>ProManager</span>
+            </Link>
+          </Group>
 
-          <div className={styles.searchBox}>
-            <input
-              type="text"
-              placeholder="Lotin, loyiha, foydalanuvchini qidirish..."
-              aria-label="Qidirish"
-            />
-          </div>
+          <TextInput
+            placeholder="Qidirish..."
+            size="sm"
+            radius="md"
+            style={{ flex: 1, maxWidth: 340 }}
+            className={styles.searchInput}
+          />
 
-          <div className={styles.headerActions} />
-        </div>
-      </header>
+          <Menu shadow="md" width={200} position="bottom-end">
+            <Menu.Target>
+              <Avatar
+                size="md"
+                radius="xl"
+                color="blue"
+                variant="filled"
+                style={{ cursor: 'pointer' }}
+              >
+                {user?.name ? user.name.charAt(0).toUpperCase() : <User size={18} />}
+              </Avatar>
+            </Menu.Target>
 
-      {/* Sidebar */}
-      <aside className={styles.sidebar}>
-        <nav className={styles.sidebarNav}>
+            <Menu.Dropdown>
+              <Menu.Label>
+                <div>
+                  <Text size="sm" fw={600} lineClamp={1}>
+                    {user?.name || 'Foydalanuvchi'}
+                  </Text>
+                  <Text size="xs" c="dimmed" lineClamp={1}>
+                    {user?.email || 'user@example.com'}
+                  </Text>
+                </div>
+              </Menu.Label>
+              <Menu.Divider />
+              <Menu.Item
+                leftSection={colorScheme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+                onClick={() => toggleColorScheme()}
+              >
+                {colorScheme === 'dark' ? 'Yorug\'lik rejim' : 'Qorong\'i rejim'}
+              </Menu.Item>
+              <Menu.Divider />
+              <Menu.Item
+                leftSection={<Settings size={16} />}
+                component={Link}
+                to="/settings"
+              >
+                Sozlamalar
+              </Menu.Item>
+              <Menu.Item
+                color="red"
+                leftSection={<LogOut size={16} />}
+                onClick={handleLogout}
+              >
+                Chiqish
+              </Menu.Item>
+            </Menu.Dropdown>
+          </Menu>
+        </Group>
+      </AppShell.Header>
+
+      <AppShell.Navbar
+        className={styles.navbar}
+        style={{ display: "flex", flexDirection: "column" }}>
+        <Stack gap={0} py="sm" style={{ flex: 1, overflow: "auto" }}>
           {menuSections.map((section, idx) => (
-            <div key={`section-${idx}`} className={styles.sidebarSection}>
+            <Box key={`section-${section.id}`}>
               {section.title && (
-                <div className={styles.sidebarSectionTitle}>{section.title}</div>
+                <Text
+                  size="xs"
+                  fw={700}
+                  c="dimmed"
+                  tt="uppercase"
+                  px="md"
+                  py="xs"
+                  style={{ letterSpacing: "0.8px" }}>
+                  {section.title}
+                </Text>
               )}
-              <ul className={styles.sidebarList}>
+              <Stack gap={4} px="xs">
                 {section.items.map((item) => {
                   const Icon = item.icon;
                   const active = isActive(item.path);
 
                   return (
-                    <li key={item.id}>
-                      <Link
-                        to={item.path}
-                        className={`${styles.sidebarItem} ${active ? styles.active : ''}`}
-                        title={item.label}
+                    <UnstyledButton
+                      key={item.id}
+                      component={Link}
+                      to={item.path}
+                      className={`${styles.navItem} ${active ? styles.navItemActive : ""}`}
+                      title={item.label}
+                      bd="1px solid transparent"
+                      p="xs"
                       >
-                        <Icon size={18} className={styles.itemIcon} />
-                        <span className={styles.itemLabel}>{item.label}</span>
-                      </Link>
-                    </li>
+                      <Group gap="sm" wrap="nowrap">
+                        <Icon size={18} />
+                        <Text size="sm" fw={500}>
+                          {item.label}
+                        </Text>
+                      </Group>
+                    </UnstyledButton>
                   );
                 })}
-              </ul>
-            </div>
+              </Stack>
+              {idx < menuSections.length - 1 && <Divider my="md" />}
+            </Box>
           ))}
+        </Stack>
+      </AppShell.Navbar>
 
-          {/* Logout Section */}
-          <div className={`${styles.sidebarSection} ${styles.logoutSection}`}>
-            <ul className={styles.sidebarList}>
-              <li>
-                <button
-                  className={styles.sidebarItem}
-                  onClick={handleLogout}
-                  title="Hisapdan chiqish"
-                  type="button"
-                >
-                  <LogOut size={18} className={styles.itemIcon} />
-                  <span className={styles.itemLabel}>Chiqish</span>
-                </button>
-              </li>
-            </ul>
-          </div>
-        </nav>
-      </aside>
-
-      {/* Main Content */}
-      <main className={styles.main}>{children}</main>
-    </div>
+      <AppShell.Main className={styles.main}>{children}</AppShell.Main>
+    </AppShell>
   );
 }
