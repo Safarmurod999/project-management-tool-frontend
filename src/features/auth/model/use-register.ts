@@ -1,23 +1,20 @@
 import { useMutation } from '@tanstack/react-query';
 import { authApi } from '@/shared/api';
 import { useAuthStore } from '@/entities/user';
-import type { LoginFormData } from './schema';
-import type { LoginResponse } from '@/entities/user';
+import type { RegisterFormData } from './schema';
+import type { RegisterResponse } from '@/entities/user/model/types';
 
-export const useLogin = () => {
+export const useRegister = () => {
   const setUser = useAuthStore((state) => state.setUser);
 
   return useMutation({
-    mutationFn: (data: LoginFormData) => authApi.login(data),
-    onSuccess: (response: LoginResponse) => {
-
-      console.log(response);
-      
+    mutationFn: (data: RegisterFormData) => authApi.register(data),
+    onSuccess: (response: RegisterResponse) => {
       // Response'dan JWT token'ni olish
-      const accessToken = response.data;
+      const res = response.data;
       
       // Token'ni localStorage'ga saqlash
-      localStorage.setItem('access_token', accessToken);
+      localStorage.setItem('userData', JSON.stringify(res));
       
       // Auth store'ni update qilish
       setUser({ id: '', email: '', name: '', role: '', createdAt: '', updatedAt: '' });

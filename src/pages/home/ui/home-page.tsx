@@ -1,27 +1,28 @@
-import { Container, Title, Text, Stack, Card, Group, Button } from '@mantine/core';
-import { LayoutGrid, Plus, BarChart3, CheckCircle2, BookOpen, Target, Bell } from 'lucide-react';
+import { Container, Stack, Card, Group, Button, Title, Text } from '@mantine/core';
+import { LayoutGrid, Plus, BarChart3, CheckCircle2, BookOpen, Target, Bell, Home } from 'lucide-react';
+import { PageHeader } from '@/shared/ui';
 
 export function HomePage() {
   return (
     <Container size="xl" py="md">
-      <Group justify="space-between" align="center" mb="xl">
-        <div>
-          <Title order={1} size={32} fw={700} mb={4}>
-            Asosiy Sahifa
-          </Title>
-          <Text c="dimmed" size="sm">
-            Sizning loyihalar, vazifalar va aktivliklar
-          </Text>
-        </div>
-        <Button
-          leftSection={<Plus size={18} />}
-          variant="filled"
-          color="blue"
-          size="md"
-        >
-          Yangi Loyiha
-        </Button>
-      </Group>
+      <PageHeader
+        breadcrumbs={[
+          { label: 'Asosiy' },
+        ]}
+        title="Asosiy Sahifa"
+        description="Sizning loyihalar, vazifalar va aktivliklar"
+        icon={<Home size={32} color="var(--mantine-color-blue-6)" />}
+        rightSection={
+          <Button
+            leftSection={<Plus size={18} />}
+            variant="filled"
+            color="blue"
+            size="md"
+          >
+            Yangi Loyiha
+          </Button>
+        }
+      />
 
       <Stack gap="lg">
         <Card withBorder padding="lg" radius="lg">

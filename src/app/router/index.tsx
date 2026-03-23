@@ -3,6 +3,9 @@ import type { RouteObject } from 'react-router-dom';
 
 import { HomePage } from '@/pages/home';
 import { LoginPage } from '@/pages/login';
+import { RegisterPage } from '@/pages/register';
+import { OTPPage } from '@/pages/otp';
+import { UserVerificationPage } from '@/pages/user-verification';
 import { ProjectsPage } from '@/pages/projects';
 import { TasksPage } from '@/pages/tasks';
 import { CalendarPage } from '@/pages/calendar';
@@ -22,6 +25,24 @@ const routes: AppRoute[] = [
   {
     path: '/login',
     element: <LoginPage />,
+    layout: 'none',
+    protected: false,
+  },
+  {
+    path: '/register',
+    element: <RegisterPage />,
+    layout: 'none',
+    protected: false,
+  },
+  {
+    path: '/verify-otp',
+    element: <OTPPage />,
+    layout: 'none',
+    protected: false,
+  },
+  {
+    path: '/verify-user',
+    element: <UserVerificationPage />,
     layout: 'none',
     protected: false,
   },

@@ -3,35 +3,41 @@ import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import { useNavigate } from 'react-router-dom';
 import { createZodValidator } from '@/shared/lib';
-import { loginSchema, type LoginFormData } from '../model/schema';
-import { useLogin } from '../model/use-login';
-import styles from './login-form.module.scss';
+import { registerSchema, type RegisterFormData } from '../model/schema';
+import { useRegister } from '../model/use-register';
+import styles from './register-form.module.scss';
 
-export function LoginForm() {
+export function RegisterForm() {
   const navigate = useNavigate();
-  const { mutate: login, isPending } = useLogin();
+  const { mutate: register, isPending } = useRegister();
 
-  const form = useForm<LoginFormData>({
+  const form = useForm<RegisterFormData>({
     initialValues: {
       email: '',
+      name: '',
       password: '',
     },
-    validate: createZodValidator(loginSchema),
+    validate: createZodValidator(registerSchema),
   });
 
-  const handleSubmit = (values: LoginFormData) => {
-    login(values, {
-      onSuccess: () => {
+  const handleSubmit = (values: RegisterFormData) => {
+    register(values, {
+      onSuccess: (response) => {
         notifications.show({
           title: 'Muvaffaqiyatli',
-          message: 'Tizimga muvaffaqiyatli kirdingiz',
+          message: 'Hisobingiz muvaffaqiyatli yaratildi',
           color: 'green',
         });
+
+        const userData = response.data;
+        const userId = userData.id;
         
-        // Kuting state update bo'lishi uchun va keyin navigate qil
-        setTimeout(() => {
-          navigate('/', { replace: true });
-        }, 300);
+        // Redirect to OTP page with userId
+        if (userId) {
+          navigate(`/verify-otp?userId=${userId}`);
+        } else {
+          navigate('/verify-otp');
+        }
       },
       onError: (error: unknown) => {
         let errorMessage = 'Nimadadir xato yuz berdi';
@@ -76,42 +82,38 @@ export function LoginForm() {
           className={styles.input}
           {...form.getInputProps('email')}
         />
-        <div>
-          <PasswordInput
-            label="Parol"
-            placeholder="Parolingizni kiriting"
-            required
-            size="md"
-            className={styles.input}
-            {...form.getInputProps('password')}
-          />
-          <Group justify="flex-end" mt="xs">
-            <Anchor 
-              size="sm" 
-              c="dimmed"
-              onClick={() => {/* Parolni tiklash */}}
-            >
-              Parolni unutdingizmi?
-            </Anchor>
-          </Group>
-        </div>
+        <TextInput
+          label="Ism"
+          placeholder="Ismingizni kiriting"
+          required
+          size="md"
+          className={styles.input}
+          {...form.getInputProps('name')}
+        />
+        <PasswordInput
+          label="Parol"
+          placeholder="Parolingizni kiriting"
+          required
+          size="md"
+          className={styles.input}
+          {...form.getInputProps('password')}
+        />
         <Button 
           type="submit" 
           fullWidth 
           size="md"
           loading={isPending}
-          className={styles.submitButton}
         >
-          Kirish
+          Ro'yxatdan o'tish
         </Button>
         <Group justify="center" gap="xs">
-          <span>Hisobingiz yo'qmi?</span>
+          <span>Allaqachon hisobingiz bormi?</span>
           <Anchor 
             size="sm" 
-            onClick={() => navigate('/register')}
+            onClick={() => navigate('/login')}
             style={{ cursor: 'pointer' }}
           >
-            Ro'yxatdan o'tish
+            Tizimga kirish
           </Anchor>
         </Group>
       </Stack>
