@@ -7,6 +7,12 @@ export interface User {
   updatedAt: string;
 }
 
+export interface RegisterResponse {
+  success: boolean;
+  status: number;
+  data: User;
+}
+
 export interface LoginResponse {
   success: boolean;
   status: number;

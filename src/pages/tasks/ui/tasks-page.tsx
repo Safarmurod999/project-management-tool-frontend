@@ -1,19 +1,20 @@
-import { Container, Title, Text, Group, Card } from '@mantine/core';
+import { Container, Card, Text } from '@mantine/core';
 import { ListChecks } from 'lucide-react';
+import { PageHeader } from '@/shared/ui';
 
 export function TasksPage() {
   return (
     <Container size="xl" py="md">
-      <Group gap={8}>
-        <ListChecks size={32} color="var(--mantine-color-blue-6)" />
-        <Title order={1} size={32} fw={700} mb={4}>
-          Vazifalar
-        </Title>
-      </Group>
-      <Text c="dimmed" size="sm" mb="xl">
-        Barcha vazifalar va ularning o'tkazilishi
-      </Text>
-      
+      <PageHeader
+        breadcrumbs={[
+          { label: 'Asosiy', href: '/' },
+          { label: 'Vazifalar' },
+        ]}
+        title="Vazifalar"
+        description="Barcha vazifalar va ularning o'tkazilishi"
+        icon={<ListChecks size={32} color="var(--mantine-color-blue-6)" />}
+      />
+
       <Card padding="xl" radius="md" withBorder>
         <Text c="dimmed" ta="center">Bu sahifa kelajakda tayyorlanmoqda...</Text>
       </Card>
