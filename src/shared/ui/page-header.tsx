@@ -36,7 +36,7 @@ export function PageHeader({
     <Box mb="lg">
       <Breadcrumbs>{breadcrumbItems}</Breadcrumbs>
 
-      <Group align="flex-end" justify="space-between" mt="xs" mb="xs">
+      <Group align="flex-end" justify="space-between" my="xl">
         <Group align="center" gap="xs">
           {icon}
           <div>
