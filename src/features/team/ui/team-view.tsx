@@ -40,7 +40,8 @@ export function TeamView() {
         withRowBorders
         striped={true}
         highlightOnHover={true}
-        records={data || []}
+        loaderType="dots"
+        records={data}
         columns={
           [
             {
@@ -70,6 +71,8 @@ export function TeamView() {
         }
         noRecordsText="Ma'lumotlar topilmadi"
       />
+
+
 
     </Stack>
   )
