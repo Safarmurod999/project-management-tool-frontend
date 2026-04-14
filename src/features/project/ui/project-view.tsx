@@ -1,6 +1,6 @@
 import { Avatar, Group, Stack, Text } from "@mantine/core";
 import { DataTable } from "mantine-datatable";
-import styles from './team-view.module.scss';
+import styles from './project-view.module.scss';
 
 const data = [
   {
@@ -29,11 +29,11 @@ const data = [
   }
 ]
 
-export function TeamView() {
+export function ProjectView() {
   return (
-    <Stack p={20} className={styles.teamView} bdrs={10}>
+    <Stack p={20} className={styles.projectView} bdrs={10}>
       <Group justify='space-between'>
-        <Text size='xl' fw={600}>Jamoa a'zolari</Text>
+        <Text size='xl' fw={600}>Loyiha a'zolari</Text>
       </Group>
 
       <DataTable
@@ -50,7 +50,7 @@ export function TeamView() {
               textAlign: 'left',
               render: (r) => (
                 <Group>
-                  <Avatar radius='sm' src={r.image} alt={r.name}/>
+                  <Avatar radius='sm' src={r.image} alt={r.name} />
                   <Stack gap='0'>
                     <Text fw='600' tt='capitalize'>{r.name}</Text>
                     <Text>{r.email}</Text>

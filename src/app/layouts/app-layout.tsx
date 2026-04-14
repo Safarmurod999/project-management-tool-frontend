@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import type { LucideIcon } from "lucide-react";
 import {
@@ -30,6 +30,7 @@ import {
 import { useAuthStore } from "@/entities/user";
 import { ROUTES } from "@/shared/config";
 import styles from "./app-layout.module.scss";
+import { useProfile } from "@/features/auth/model/use-profile";
 
 interface SidebarMenuItemType {
   id: string;
@@ -111,6 +112,8 @@ export function AppLayout({ children }: AppLayoutProps) {
     logout();
     navigate("/login");
   };
+
+  useProfile();
 
   return (
     <AppShell
@@ -217,7 +220,7 @@ export function AppLayout({ children }: AppLayoutProps) {
                       title={item.label}
                       bd="1px solid transparent"
                       p="xs"
-                      >
+                    >
                       <Group gap="sm" wrap="nowrap">
                         <Icon size={18} />
                         <Text size="sm" fw={500}>
