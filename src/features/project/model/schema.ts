@@ -30,14 +30,13 @@ export const updateProjectSchema = z.object({
   name: z
     .string()
     .min(1, "Loyiha nomi majburiy")
-    .max(100, "Loyiha nomi juda uzun")
-    .optional(),
+    .max(100, "Loyiha nomi juda uzun"),
+  teamId: z.string(),
+  status: z.string(),
   description: z
     .string()
     .min(1, "Loyiha tavsifi majburiy")
-    .max(500, "Loyiha tavsifi juda uzun")
-    .optional(),
-  status: z.string().optional(),
+    .max(500, "Loyiha tavsifi juda uzun"),
 });
 
 export type ProjectFormData = z.infer<typeof projectSchema>;
