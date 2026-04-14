@@ -60,7 +60,7 @@ apiClient.interceptors.response.use(
     const url = originalRequest.url || "";
 
     const shouldRefresh =
-      error.response?.status === 401 &&
+      error.response?.status === 403 &&
       !originalRequest._retry &&
       !url.includes("/auth/login") &&
       !url.includes("/auth/refresh");

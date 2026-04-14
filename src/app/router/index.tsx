@@ -6,7 +6,7 @@ import { LoginPage } from '@/pages/login';
 import { RegisterPage } from '@/pages/register';
 import { OTPPage } from '@/pages/otp';
 import { UserVerificationPage } from '@/pages/user-verification';
-import { ProjectsPage } from '@/pages/projects';
+import { ProjectPage, ProjectViewPage } from '@/pages/projects';
 import { TasksPage } from '@/pages/tasks';
 import { CalendarPage } from '@/pages/calendar';
 import { TeamPage } from '@/pages/team';
@@ -25,73 +25,79 @@ type AppRoute = RouteObject & {
 const routes: AppRoute[] = [
   {
     path: '/login',
-    element: <LoginPage/>,
+    element: <LoginPage />,
     layout: 'none',
     protected: false,
   },
   {
     path: '/register',
-    element: <RegisterPage/>,
+    element: <RegisterPage />,
     layout: 'none',
     protected: false,
   },
   {
     path: '/verify-otp',
-    element: <OTPPage/>,
+    element: <OTPPage />,
     layout: 'none',
     protected: false,
   },
   {
     path: '/verify-user',
-    element: <UserVerificationPage/>,
+    element: <UserVerificationPage />,
     layout: 'none',
     protected: false,
   },
   {
     path: '/',
-    element: <HomePage/>,
+    element: <HomePage />,
     layout: 'app',
     protected: true,
   },
   {
     path: '/projects',
-    element: <ProjectsPage/>,
+    element: <ProjectPage />,
+    layout: 'app',
+    protected: true,
+  },
+  {
+    path: '/projects/view/:id',
+    element: <ProjectViewPage />,
     layout: 'app',
     protected: true,
   },
   {
     path: '/tasks',
-    element: <TasksPage/>,
+    element: <TasksPage />,
     layout: 'app',
     protected: true,
   },
   {
     path: '/calendar',
-    element: <CalendarPage/>,
+    element: <CalendarPage />,
     layout: 'app',
     protected: true,
   },
   {
     path: '/team',
-    element: <TeamPage/>,
+    element: <TeamPage />,
     layout: 'app',
     protected: true,
   },
   {
     path: '/team/view/:id',
-    element: <TeamViewPage/>,
+    element: <TeamViewPage />,
     layout: 'app',
     protected: true,
   },
   {
     path: '/settings',
-    element: <SettingsPage/>,
+    element: <SettingsPage />,
     layout: 'app',
     protected: true,
   },
   {
     path: '*',
-    element: <Navigate to="/" replace/>,
+    element: <Navigate to="/" replace />,
   },
 ];
 
@@ -113,7 +119,7 @@ export function AppRouter() {
           }
 
           return (
-            <Route key={route.path} path={route.path} element={element}/>
+            <Route key={route.path} path={route.path} element={element} />
           );
         })}
       </Routes>

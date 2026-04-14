@@ -2,7 +2,16 @@ export interface User {
   id: string;
   email: string;
   name: string;
-  role: string;
+  role: {
+    id: string;
+    name: string;
+    code: string;
+  };
+  permissions: {
+    id: string;
+    name: string;
+    code: string;
+  }[];
   createdAt: string;
   updatedAt: string;
 }
