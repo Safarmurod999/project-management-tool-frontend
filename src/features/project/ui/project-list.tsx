@@ -8,6 +8,14 @@ import { EditProjectForm } from './edit-project-form';
 import { useNavigate } from "react-router-dom";
 import styles from './project-list.module.scss';
 
+interface EditingProject {
+  id: string;
+  name: string;
+  description: string;
+  teamId: string;
+  status: string;
+}
+
 export function ProjectList() {
   const navigate = useNavigate();
   const { data: projects, isLoading } = useProjects();
@@ -20,6 +28,8 @@ export function ProjectList() {
   const [editingProjectValues, setEditingProjectValues] = useState<{
     name: string;
     description: string;
+    teamId: string;
+    status: string;
   } | null>(null);
 
   const handleDelete = (projectId: string, projectName: string) => {
@@ -43,9 +53,15 @@ export function ProjectList() {
     }
   };
 
-  const handleEditOpen = (projectId: string, name: string, description: string) => {
-    setEditingProjectId(projectId);
-    setEditingProjectValues({ name, description });
+  const handleEditOpen = (project: EditingProject) => {
+    const data = {
+      name: project.name,
+      description: project.description,
+      teamId: project.teamId,
+      status: project.status
+    }
+    setEditingProjectId(project.id);
+    setEditingProjectValues(data);
   };
 
   const handleEditClose = () => {
@@ -90,7 +106,7 @@ export function ProjectList() {
                               leftSection={<Edit size={14} />}
                               onClick={(e) => {
                                 e.stopPropagation();
-                                handleEditOpen(project.id, project.name, project.description)
+                                handleEditOpen(project)
                               }}
                             >
                               Tahrirlash
@@ -161,7 +177,7 @@ export function ProjectList() {
                               leftSection={<Edit size={14} />}
                               onClick={(e) => {
                                 e.stopPropagation();
-                                handleEditOpen(project.id, project.name, project.description)
+                                handleEditOpen(project)
                               }}
                             >
                               Tahrirlash
@@ -211,7 +227,7 @@ export function ProjectList() {
       <Modal
         opened={Boolean(editingProjectId)}
         onClose={handleEditClose}
-        title="Jamoani tahrirlash"
+        title="Loyihani tahrirlash"
         size="md"
       >
         {editingProjectId && editingProjectValues ? (
