@@ -1,12 +1,15 @@
 import { create } from "zustand";
-import type { Project, ProjectState } from "./types";
+import type { Project, ProjectData, ProjectState } from "./types";
 
 export const useProjectStore = create<ProjectState>((set) => {
   return {
-    projects: [],
+    projects: {
+      myProjects: [],
+      participatedProjects: [],
+    },
     project: null,
     isLoading: false,
-    setProjects: (projects: Project[]) =>
+    setProjects: (projects: ProjectData) =>
       set(() => ({
         projects,
       })),
