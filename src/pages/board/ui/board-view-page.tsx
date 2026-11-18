@@ -67,8 +67,7 @@ export function BoardViewPage() {
         description={board.description ?? undefined}
         icon={
           <KanbanSquare
-            size={32}
-            color="var(--mantine-color-blue-6)"
+            size={22}
           />
         }
         rightSection={

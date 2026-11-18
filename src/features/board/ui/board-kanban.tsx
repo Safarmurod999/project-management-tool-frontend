@@ -55,7 +55,8 @@ import {
 } from "@/entities/board";
 import { Access, type User, useAccess } from "@/entities/user";
 import { useUsers } from "@/features/users/model/use-user";
-import type { ReorderCardPayload } from "@/shared/api/card";
+import { useSearchParams } from "react-router-dom";
+import { cardApi, type ReorderCardPayload } from "@/shared/api/card";
 import { getErrorMessage, isConflictError } from "../model/get-error-message";
 import {
   useBoardCards,
@@ -116,6 +117,58 @@ export function BoardKanban({ boardId, projectId }: BoardKanbanProps) {
   const [columnModal, setColumnModal] = useState<ColumnModal | null>(null);
   const [cardModal, setCardModal] = useState<CardModal | null>(null);
   const [pendingMove, setPendingMove] = useState<PendingMove | null>(null);
+
+  // `?card=<id>` (links from the home page and notifications) opens that card
+  const [searchParams, setSearchParams] = useSearchParams();
+  const linkedCardId = searchParams.get("card");
+
+  useEffect(() => {
+    if (!linkedCardId || !cards) {
+      return;
+    }
+
+    const clearLink = () =>
+      setSearchParams(
+        (params) => {
+          params.delete("card");
+          return params;
+        },
+        { replace: true },
+      );
+
+    const loaded = Object.values(cards)
+      .flat()
+      .find((card) => card.id === linkedCardId);
+
+    if (loaded) {
+      setCardModal({ mode: "edit", card: loaded });
+      clearLink();
+      return;
+    }
+
+    // Not on a loaded page of its column (or moved away): fetch it directly
+    let cancelled = false;
+    cardApi
+      .getById(linkedCardId)
+      .then(({ data }) => {
+        if (!cancelled) setCardModal({ mode: "edit", card: data });
+      })
+      .catch(() => {
+        if (!cancelled)
+          notifications.show({
+            title: "Xatolik",
+            message: "Vazifa topilmadi yoki o'chirilgan",
+            color: "red",
+          });
+      })
+      .finally(() => {
+        if (!cancelled) clearLink();
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [linkedCardId, cards, setSearchParams]);
 
   // Keep local ordering in sync with the server, except mid-drag
   useEffect(() => {
@@ -633,7 +686,7 @@ function KanbanColumn({
       mah={maxHeight}
       bg={
         isOver && !isBlocked
-          ? "var(--mantine-color-blue-light)"
+          ? "var(--mantine-color-brand-light)"
           : "var(--mantine-color-gray-light)"
       }
       style={{

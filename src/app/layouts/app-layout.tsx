@@ -11,26 +11,32 @@ import {
   LogOut,
   Briefcase,
   Moon,
+  Search,
   Sun,
   User,
 } from "lucide-react";
 import {
+  ActionIcon,
   AppShell,
-  Box,
-  Group,
-  TextInput,
-  UnstyledButton,
-  Stack,
-  Divider,
-  Text,
   Avatar,
+  Box,
+  Burger,
+  Group,
   Menu,
+  Stack,
+  Text,
+  TextInput,
+  Tooltip,
+  UnstyledButton,
+  useComputedColorScheme,
   useMantineColorScheme,
 } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import { useAuthStore } from "@/entities/user";
 import { ROUTES } from "@/shared/config";
 import styles from "./app-layout.module.scss";
 import { useProfile } from "@/features/auth/model/use-profile";
+import { NotificationBell } from "@/features/notification";
 
 interface SidebarMenuItemType {
   id: string;
@@ -104,9 +110,21 @@ export function AppLayout({ children }: AppLayoutProps) {
   const location = useLocation();
   const navigate = useNavigate();
   const { logout, user } = useAuthStore();
-  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
+  const { toggleColorScheme } = useMantineColorScheme();
+  const colorScheme = useComputedColorScheme("light");
+  const [navOpened, { toggle: toggleNav, close: closeNav }] = useDisclosure();
 
-  const isActive = (path: string) => location.pathname === path;
+  // Nested pages (e.g. /projects/view/1) keep their section highlighted
+  const isActive = (path: string) =>
+    path === "/"
+      ? location.pathname === "/"
+      : location.pathname === path || location.pathname.startsWith(`${path}/`);
+
+  // Close the mobile drawer after navigating
+  // biome-ignore lint/correctness/useExhaustiveDependencies: runs on every route change on purpose
+  useEffect(() => {
+    closeNav();
+  }, [location.pathname, closeNav]);
 
   const handleLogout = () => {
     logout();
@@ -115,98 +133,117 @@ export function AppLayout({ children }: AppLayoutProps) {
 
   useProfile();
 
+  const initial = user?.name ? user.name.charAt(0).toUpperCase() : null;
+
   return (
     <AppShell
-      header={{ height: 60 }}
-      navbar={{ width: 260, breakpoint: "sm" }}
-      padding="md">
+      header={{ height: 64 }}
+      navbar={{
+        width: 264,
+        breakpoint: "sm",
+        collapsed: { mobile: !navOpened },
+      }}
+      padding="lg"
+    >
       <AppShell.Header className={styles.header}>
-        <Group justify="space-between" align="center" h="100%" px="md">
-          <Group gap={10} flex={0}>
+        <Group justify="space-between" align="center" h="100%" px="md" wrap="nowrap">
+          <Group gap="sm" wrap="nowrap">
+            <Burger
+              opened={navOpened}
+              onClick={toggleNav}
+              hiddenFrom="sm"
+              size="sm"
+              aria-label="Menyuni ochish"
+            />
             <Link to="/" className={styles.logo}>
-              <Briefcase size={22} color="var(--mantine-color-blue-6)" />
+              <span className={styles.logoMark}>
+                <Briefcase size={18} />
+              </span>
               <span>ProManager</span>
             </Link>
           </Group>
 
           <TextInput
             placeholder="Qidirish..."
+            leftSection={<Search size={16} />}
             size="sm"
-            radius="md"
-            style={{ flex: 1, maxWidth: 340 }}
+            visibleFrom="md"
+            style={{ flex: 1, maxWidth: 420 }}
             className={styles.searchInput}
           />
 
-          <Menu shadow="md" width={200} position="bottom-end">
-            <Menu.Target>
-              <Avatar
-                size="md"
+          <Group gap={6} wrap="nowrap">
+            <Tooltip
+              label={colorScheme === "dark" ? "Yorug' rejim" : "Qorong'i rejim"}
+            >
+              <ActionIcon
+                variant="subtle"
+                color="gray"
+                size="lg"
                 radius="xl"
-                color="blue"
-                variant="filled"
-                style={{ cursor: 'pointer' }}
+                onClick={() => toggleColorScheme()}
+                aria-label="Rejimni almashtirish"
               >
-                {user?.name ? user.name.charAt(0).toUpperCase() : <User size={18} />}
-              </Avatar>
-            </Menu.Target>
+                {colorScheme === "dark" ? <Sun size={19} /> : <Moon size={19} />}
+              </ActionIcon>
+            </Tooltip>
 
-            <Menu.Dropdown>
-              <Menu.Label>
-                <div>
-                  <Text size="sm" fw={600} lineClamp={1}>
-                    {user?.name || 'Foydalanuvchi'}
+            <NotificationBell />
+
+            <Menu width={220} position="bottom-end">
+              <Menu.Target>
+                <Avatar
+                  size={36}
+                  radius="xl"
+                  color="brand"
+                  variant="filled"
+                  ml={4}
+                  style={{ cursor: "pointer" }}
+                >
+                  {initial ?? <User size={18} />}
+                </Avatar>
+              </Menu.Target>
+
+              <Menu.Dropdown>
+                <Menu.Label>
+                  <Text size="sm" fw={600} c="var(--mantine-color-text)" lineClamp={1}>
+                    {user?.name || "Foydalanuvchi"}
                   </Text>
                   <Text size="xs" c="dimmed" lineClamp={1}>
-                    {user?.email || 'user@example.com'}
+                    {user?.email}
                   </Text>
-                </div>
-              </Menu.Label>
-              <Menu.Divider />
-              <Menu.Item
-                leftSection={colorScheme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
-                onClick={() => toggleColorScheme()}
-              >
-                {colorScheme === 'dark' ? 'Yorug\'lik rejim' : 'Qorong\'i rejim'}
-              </Menu.Item>
-              <Menu.Divider />
-              <Menu.Item
-                leftSection={<Settings size={16} />}
-                component={Link}
-                to="/settings"
-              >
-                Sozlamalar
-              </Menu.Item>
-              <Menu.Item
-                color="red"
-                leftSection={<LogOut size={16} />}
-                onClick={handleLogout}
-              >
-                Chiqish
-              </Menu.Item>
-            </Menu.Dropdown>
-          </Menu>
+                </Menu.Label>
+                <Menu.Divider />
+                <Menu.Item
+                  leftSection={<Settings size={16} />}
+                  component={Link}
+                  to="/settings"
+                >
+                  Sozlamalar
+                </Menu.Item>
+                <Menu.Item
+                  color="red"
+                  leftSection={<LogOut size={16} />}
+                  onClick={handleLogout}
+                >
+                  Chiqish
+                </Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
+          </Group>
         </Group>
       </AppShell.Header>
 
-      <AppShell.Navbar
-        className={styles.navbar}
-        style={{ display: "flex", flexDirection: "column" }}>
-        <Stack gap={0} py="sm" style={{ flex: 1, overflow: "auto" }}>
-          {menuSections.map((section, idx) => (
+      <AppShell.Navbar className={styles.navbar} p="sm">
+        <Stack gap="lg" py="xs" style={{ flex: 1, overflow: "auto" }}>
+          {menuSections.map((section) => (
             <Box key={`section-${section.id}`}>
               {section.title && (
-                <Text
-                  size="xs"
-                  fw={700}
-                  c="dimmed"
-                  tt="uppercase"
-                  px="md"
-                  py="xs"
-                  style={{ letterSpacing: "0.8px" }}>
+                <Text className={styles.sectionTitle} px="sm" mb={6}>
                   {section.title}
                 </Text>
               )}
-              <Stack gap={4} px="xs">
+              <Stack gap={2}>
                 {section.items.map((item) => {
                   const Icon = item.icon;
                   const active = isActive(item.path);
@@ -217,24 +254,45 @@ export function AppLayout({ children }: AppLayoutProps) {
                       component={Link}
                       to={item.path}
                       className={`${styles.navItem} ${active ? styles.navItemActive : ""}`}
-                      title={item.label}
-                      bd="1px solid transparent"
-                      p="xs"
+                      aria-current={active ? "page" : undefined}
                     >
-                      <Group gap="sm" wrap="nowrap">
-                        <Icon size={18} />
-                        <Text size="sm" fw={500}>
-                          {item.label}
-                        </Text>
-                      </Group>
+                      <Icon size={18} strokeWidth={active ? 2.2 : 1.8} />
+                      <Text size="sm" fw="inherit" c="inherit">
+                        {item.label}
+                      </Text>
                     </UnstyledButton>
                   );
                 })}
               </Stack>
-              {idx < menuSections.length - 1 && <Divider my="md" />}
             </Box>
           ))}
         </Stack>
+
+        {user ? (
+          <Box className={styles.userCard}>
+            <Avatar size={34} radius="xl" color="brand" variant="light">
+              {initial ?? <User size={16} />}
+            </Avatar>
+            <Box style={{ minWidth: 0, flex: 1 }}>
+              <Text size="sm" fw={600} truncate>
+                {user.name}
+              </Text>
+              <Text size="xs" c="dimmed" truncate>
+                {user.role?.name ?? user.email}
+              </Text>
+            </Box>
+            <Tooltip label="Chiqish">
+              <ActionIcon
+                variant="subtle"
+                color="gray"
+                onClick={handleLogout}
+                aria-label="Chiqish"
+              >
+                <LogOut size={16} />
+              </ActionIcon>
+            </Tooltip>
+          </Box>
+        ) : null}
       </AppShell.Navbar>
 
       <AppShell.Main className={styles.main}>{children}</AppShell.Main>

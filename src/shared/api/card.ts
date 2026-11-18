@@ -1,6 +1,7 @@
 import type {
   ApiResponse,
   BoardCard,
+  MyCard,
   PaginatedResponse,
 } from "@/entities/board";
 import type {
@@ -15,6 +16,16 @@ export interface CardFilters {
   limit?: number;
   title?: string;
   statusId?: string;
+}
+
+export interface MyCardFilters {
+  page?: number;
+  limit?: number;
+  projectId?: string;
+  statusId?: string;
+  title?: string;
+  /** true: cards in a done status, false: open cards, omitted: all */
+  done?: boolean;
 }
 
 export interface ReorderCardPayload {
@@ -42,6 +53,15 @@ export const cardApi = {
   getAll: async (params: CardFilters): Promise<PaginatedResponse<BoardCard>> => {
     const response = await apiClient.get<PaginatedResponse<BoardCard>>(
       "/cards",
+      { params },
+    );
+    return response.data;
+  },
+
+  /** Cards assigned to the current user across all projects, newest first */
+  getMy: async (params?: MyCardFilters): Promise<PaginatedResponse<MyCard>> => {
+    const response = await apiClient.get<PaginatedResponse<MyCard>>(
+      "/cards/my",
       { params },
     );
     return response.data;

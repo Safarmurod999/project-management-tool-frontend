@@ -47,8 +47,7 @@ export function TeamViewPage() {
           description={data.description}
           icon={
             <Users
-              size={32}
-              color="var(--mantine-color-blue-6)"
+              size={22}
             />
           }
           rightSection={

@@ -16,7 +16,7 @@ export function TeamPage() {
         ]}
         title="Jamoa"
         description="Jamoalaringizni boshqaring va a'zolarini tayinlang"
-        icon={<Users size={32} color="var(--mantine-color-blue-6)" />}
+        icon={<Users size={22} />}
         rightSection={
           <Button
             leftSection={<Plus size={16} />}

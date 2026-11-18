@@ -465,14 +465,14 @@ function TransitionRow({
           <StatusBadge status={from} />
 
           {isTwoWay ? (
-            <ArrowLeftRight size={16} color="var(--mantine-color-blue-6)" />
+            <ArrowLeftRight size={16} color="var(--mantine-color-brand-6)" />
           ) : (
             <ArrowRight size={16} color="var(--mantine-color-dimmed)" />
           )}
 
           <StatusBadge status={to} />
 
-          <Badge size="xs" variant="light" color={isTwoWay ? "blue" : "gray"}>
+          <Badge size="xs" variant="light" color={isTwoWay ? "brand" : "gray"}>
             {isTwoWay ? "Ikki tomonlama" : "Bir tomonlama"}
           </Badge>
         </Group>
@@ -696,7 +696,7 @@ function TransitionForm({ workflow, group, onSuccess }: TransitionFormProps) {
             Mavjud o'tishni tahrirlang.
           </Alert>
         ) : desired.length > 0 ? (
-          <Alert color="blue" icon={<Info size={16} />}>
+          <Alert color="brand" icon={<Info size={16} />}>
             {desired
               .map(
                 (rule) =>
@@ -948,7 +948,7 @@ function CreateWorkflowForm({
                     >
                       <ActionIcon
                         variant={draft.bidirectional ? "light" : "subtle"}
-                        color={draft.bidirectional ? "blue" : "gray"}
+                        color={draft.bidirectional ? "brand" : "gray"}
                         aria-label="Yo'nalish turini almashtirish"
                         onClick={() =>
                           form.setFieldValue(
@@ -1001,7 +1001,7 @@ function CreateWorkflowForm({
           )}
 
           {rules.length > 0 && !hasDraftErrors ? (
-            <Alert color="blue" icon={<Info size={16} />}>
+            <Alert color="brand" icon={<Info size={16} />}>
               {rules
                 .map(
                   (rule) =>

@@ -8,3 +8,5 @@ export { columnApi } from './column';
 export { cardApi } from './card';
 export { statusApi } from './status';
 export { workflowApi } from './workflow';
+export { notificationApi } from './notification';
+export { userApi } from './user';

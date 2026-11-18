@@ -10,6 +10,8 @@ export type {
   Board,
   BoardColumn,
   BoardCard,
+  MyCard,
+  MyStats,
   BoardDetails,
   BoardStatusEnum,
   Status,

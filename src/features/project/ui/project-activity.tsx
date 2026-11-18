@@ -25,7 +25,7 @@ const activities = [
         description: "John Doe yangi board yaratdi",
         date: "20 daqiqa oldin",
         icon: <KanbanSquare size={16} />,
-        color: "blue",
+        color: "brand",
     },
     {
         id: "2",

@@ -90,7 +90,7 @@ export function ProjectList() {
                       onClick={() => navigate(`/projects/view/${project.id}`)}>
                       <Group justify="space-between" mb="xs">
                         <Group gap="sm">
-                          <Users size={20} color="var(--mantine-color-blue-6)" />
+                          <Users size={20} color="var(--mantine-color-brand-6)" />
                           <Text fw={500} size="lg">
                             {project.name}
                           </Text>
@@ -161,7 +161,7 @@ export function ProjectList() {
                       onClick={() => navigate(`/projects/view/${project.id}`)}>
                       <Group justify="space-between" mb="xs">
                         <Group gap="sm">
-                          <Users size={20} color="var(--mantine-color-blue-6)" />
+                          <Users size={20} color="var(--mantine-color-brand-6)" />
                           <Text fw={500} size="lg">
                             {project.name}
                           </Text>

@@ -91,8 +91,7 @@ export function ProjectViewPage() {
           description={data.description}
           icon={
             <KanbanSquare
-              size={32}
-              color="var(--mantine-color-blue-6)"
+              size={22}
             />
           }
         />

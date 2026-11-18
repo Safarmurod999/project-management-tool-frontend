@@ -12,7 +12,7 @@ export function CalendarPage() {
         ]}
         title="Taqvim"
         description="Loyiha va vazifalar taqvimi"
-        icon={<Calendar size={32} color="var(--mantine-color-blue-6)" />}
+        icon={<Calendar size={22} />}
       />
 
       <Card padding="xl" radius="md" withBorder>

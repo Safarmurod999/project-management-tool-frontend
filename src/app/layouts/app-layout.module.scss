@@ -1,82 +1,124 @@
-* {
-  box-sizing: border-box;
-}
-
 .header {
-  background: light-dark(linear-gradient(to bottom, #ffffff 0%, #fafbfc 100%), var(--mantine-color-dark-7));
-  border-bottom: 1px solid light-dark(#dce3e8, var(--mantine-color-dark-4));
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  background: light-dark(rgba(255, 255, 255, 0.82), rgba(25, 26, 34, 0.82));
+  backdrop-filter: saturate(180%) blur(12px);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
+  border-bottom: 1px solid var(--app-border);
 }
 
 .logo {
   display: flex;
   align-items: center;
   gap: 10px;
-  font-weight: 700;
+  font-weight: 800;
   font-size: 15px;
-  color: var(--mantine-color-blue-6);
+  letter-spacing: -0.01em;
+  color: light-dark(var(--mantine-color-dark-9), var(--mantine-color-white));
   text-decoration: none;
   white-space: nowrap;
   flex-shrink: 0;
+}
 
-  &:hover {
-    color: var(--mantine-color-blue-7);
-  }
+.logoMark {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  color: #fff;
+  background: linear-gradient(
+    135deg,
+    var(--mantine-color-brand-5) 0%,
+    var(--mantine-color-violet-6) 100%
+  );
+  box-shadow: 0 4px 12px -2px rgba(79, 91, 240, 0.45);
 }
 
 .searchInput {
   input {
-    background-color: light-dark(#f6f8fa, var(--mantine-color-dark-6));
-    border: 1px solid light-dark(#dce3e8, var(--mantine-color-dark-4));
-    transition: all 0.2s ease;
+    background-color: var(--app-muted-bg);
+    border: 1px solid transparent;
+    transition:
+      background-color 150ms ease,
+      border-color 150ms ease,
+      box-shadow 150ms ease;
 
     &::placeholder {
-      color: light-dark(#738496, var(--mantine-color-dark-2));
-    }
-
-    &:focus {
-      background-color: light-dark(#ffffff, var(--mantine-color-dark-5));
-      border-color: var(--mantine-color-blue-6);
-      box-shadow: 0 0 0 2px rgba(0, 82, 204, 0.1);
+      color: var(--mantine-color-dimmed);
     }
 
     &:hover:not(:focus) {
-      background-color: light-dark(#f0f2f5, var(--mantine-color-dark-5));
-      border-color: light-dark(#b6c2cf, var(--mantine-color-dark-3));
+      border-color: var(--app-border);
+    }
+
+    &:focus {
+      background-color: var(--app-surface);
+      border-color: var(--mantine-color-brand-5);
+      box-shadow: 0 0 0 3px var(--mantine-color-brand-light);
     }
   }
 }
 
 .navbar {
-  background-color: light-dark(#ffffff, var(--mantine-color-dark-7));
-  border-right: 1px solid light-dark(#dce3e8, var(--mantine-color-dark-4));
+  background-color: var(--app-surface);
+  border-right: 1px solid var(--app-border);
+}
+
+.sectionTitle {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mantine-color-dimmed);
 }
 
 .navItem {
-  padding: 9px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  color: light-dark(#44546f, var(--mantine-color-dark-0));
-  line-height: 1.4;
-  transition: all 0.15s cubic-bezier(0.2, 0, 0, 1);
-  text-decoration: none;
+  position: relative;
   display: flex;
   align-items: center;
   gap: 11px;
+  padding: 9px 12px;
+  border-radius: 10px;
+  color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-1));
+  line-height: 1.4;
+  text-decoration: none;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
 
   &:hover {
-    background-color: light-dark(#f6f8fa, var(--mantine-color-dark-6));
-    color: var(--mantine-color-blue-6);
+    background-color: var(--app-muted-bg);
+    color: light-dark(var(--mantine-color-dark-9), var(--mantine-color-white));
   }
 
   &.navItemActive {
-    background-color: light-dark(#e8f0ff, var(--mantine-color-dark-5));
-    color: var(--mantine-color-blue-6);
+    background-color: var(--app-nav-active-bg);
+    color: var(--app-nav-active-color);
     font-weight: 600;
-    border: 1px solid light-dark(#ccddff, var(--mantine-color-dark-4));
+
+    // Accent bar inside the item's left edge (the nav list clips overflow)
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 9px;
+      bottom: 9px;
+      width: 3px;
+      border-radius: 0 3px 3px 0;
+      background: var(--mantine-color-brand-filled);
+    }
   }
 }
 
+.userCard {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 12px;
+  background-color: var(--app-muted-bg);
+}
+
 .main {
-  background-color: light-dark(#fafbfc, var(--mantine-color-dark-8));
+  background-color: var(--app-bg);
+  min-height: 100vh;
 }
