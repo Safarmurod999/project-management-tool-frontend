@@ -1,42 +1,86 @@
-import { PageHeader } from "@/shared/ui";
-import { Button, Container } from "@mantine/core";
-import { SettingsIcon, Users } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router";
-import { useTeam, TeamView } from "@/features/team";
+import { useState } from 'react';
+
+import { Container, Group, Button } from '@mantine/core';
+
+import { SettingsIcon, Users } from 'lucide-react';
+
+import { useNavigate, useParams } from 'react-router-dom';
+
+import { MemberModal, PageHeader } from '@/shared/ui';
+
+import { TeamView, useTeam } from '@/features/team';
 
 export function TeamViewPage() {
-  const {id} = useParams();
+  const { id } = useParams<{ id: string }>();
+
   const navigate = useNavigate();
 
-  const {data, isFetched} = useTeam(id!);
+  const [open, setOpen] = useState(false);
+
+  const { data, isFetched } = useTeam(id!);
+
+  const handleAddMember = () => {
+    setOpen(true);
+  };
+
+  const handleCloseMemberModal = (value: boolean) => {
+    setOpen(value);
+  };
 
   return (
     <Container size="xl" py="md">
-      {
-        (isFetched && data) && (
-          <PageHeader
-            breadcrumbs={[
-              {label: 'Asosiy', href: '/'},
-              {label: 'Jamoa'},
-              {label: data.name}
-            ]}
-            title={data.name}
-            description={data.description}
-            icon={<Users size={32} color="var(--mantine-color-blue-6)"/>}
-            rightSection={
+      {isFetched && data && (
+        <PageHeader
+          breadcrumbs={[
+            {
+              label: 'Asosiy',
+              href: '/',
+            },
+            {
+              label: 'Jamoa',
+            },
+            {
+              label: data.name,
+            },
+          ]}
+          title={data.name}
+          description={data.description}
+          icon={
+            <Users
+              size={32}
+              color="var(--mantine-color-blue-6)"
+            />
+          }
+          rightSection={
+            <Group>
               <Button
-                leftSection={<SettingsIcon size={16}/>}
-                onClick={() => navigate(`/team/view/${id}/permissions`)}
+                leftSection={<Users size={16} />}
+                onClick={handleAddMember}
+              >
+                Yangi a'zo qo'shish
+              </Button>
+
+              <Button
+                leftSection={<SettingsIcon size={16} />}
+                onClick={() =>
+                  navigate(`/team/view/${id}/permissions`)
+                }
               >
                 Ruxsatlarni boshqarish
               </Button>
-            }
-          />
+            </Group>
+          }
+        />
+      )}
 
-        )
-      }
-      <TeamView/>
+      <TeamView
+      />
+
+      <MemberModal
+        open={open}
+        setOpen={handleCloseMemberModal}
+        scopeType="team"
+      />
     </Container>
-  )
+  );
 }

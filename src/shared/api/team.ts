@@ -1,10 +1,19 @@
-import type { TeamResponse, Team } from "@/entities/team";
-import type { CreateTeamFormData, UpdateTeamFormData } from "@/features/team/model/schema";
+import type { TeamResponse, Team, TeamMembers } from "@/entities/team";
+import type {
+  CreateTeamFormData,
+  UpdateTeamFormData,
+} from "@/features/team/model/schema";
 import { apiClient } from "./client";
 
 export interface TeamsResponse {
   success: boolean;
   data: Team[];
+  status: number;
+}
+
+export interface TeamMembersResponse {
+  success: boolean;
+  data: TeamMembers[];
   status: number;
 }
 
@@ -19,12 +28,20 @@ export const teamApi = {
     return response.data;
   },
 
+  getAllMembers: async (id: string): Promise<TeamMembersResponse> => {
+    const response = await apiClient.get<TeamMembersResponse>(`/teams/${id}/members`);
+    return response.data;
+  },
+
   getById: async (id: string): Promise<TeamResponse> => {
     const response = await apiClient.get<TeamResponse>(`/teams/${id}`);
     return response.data;
   },
 
-  update: async (id: string, data: UpdateTeamFormData): Promise<TeamResponse> => {
+  update: async (
+    id: string,
+    data: UpdateTeamFormData,
+  ): Promise<TeamResponse> => {
     const response = await apiClient.put<TeamResponse>(`/teams/${id}`, data);
     return response.data;
   },

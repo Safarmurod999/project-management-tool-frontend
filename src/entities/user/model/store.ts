@@ -1,5 +1,6 @@
 import { create } from 'zustand';
-import type { AuthState } from './types';
+import { disconnectSocket } from '@/shared/api/socket';
+import type { AuthState, User } from './types';
 
 export const useAuthStore = create<AuthState>((set) => {
   // Check if user has a valid token in localStorage
@@ -9,11 +10,15 @@ export const useAuthStore = create<AuthState>((set) => {
 
   return {
     user: user,
+    users: [],
     isAuthenticated,
     setUser: (user) => set({ user, isAuthenticated: !!user }),
+    setUsers: (users: User[]) => set({ users }),
     logout: () => {
       localStorage.removeItem('access_token');
       localStorage.removeItem('user');
+      // Drop the authenticated realtime connection
+      disconnectSocket();
       set({ user: null, isAuthenticated: false });
     },
   };

@@ -7,6 +7,7 @@ import { RegisterPage } from '@/pages/register';
 import { OTPPage } from '@/pages/otp';
 import { UserVerificationPage } from '@/pages/user-verification';
 import { ProjectPage, ProjectViewPage } from '@/pages/projects';
+import { BoardViewPage } from '@/pages/board';
 import { TasksPage } from '@/pages/tasks';
 import { CalendarPage } from '@/pages/calendar';
 import { TeamPage } from '@/pages/team';
@@ -23,6 +24,7 @@ type AppRoute = RouteObject & {
 };
 
 const routes: AppRoute[] = [
+  // Auth
   {
     path: '/login',
     element: <LoginPage />,
@@ -47,24 +49,48 @@ const routes: AppRoute[] = [
     layout: 'none',
     protected: false,
   },
+
+  // Home
   {
     path: '/',
     element: <HomePage />,
     layout: 'app',
     protected: true,
   },
+
+  // Projects
   {
     path: '/projects',
     element: <ProjectPage />,
     layout: 'app',
     protected: true,
   },
+
+  // Project overview
   {
     path: '/projects/view/:id',
     element: <ProjectViewPage />,
     layout: 'app',
     protected: true,
   },
+
+  // Project tabs
+  {
+    path: '/projects/view/:id/:tab',
+    element: <ProjectViewPage />,
+    layout: 'app',
+    protected: true,
+  },
+
+  // Boards
+  {
+    path: '/boards/:id',
+    element: <BoardViewPage />,
+    layout: 'app',
+    protected: true,
+  },
+
+  // Other
   {
     path: '/tasks',
     element: <TasksPage />,
@@ -95,6 +121,8 @@ const routes: AppRoute[] = [
     layout: 'app',
     protected: true,
   },
+
+  // Fallback
   {
     path: '*',
     element: <Navigate to="/" replace />,

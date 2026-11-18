@@ -1,2 +1,2 @@
 export { useTeamStore } from "./model/store";
-export type { Team, TeamResponse, TeamState } from "./model/types";
+export type { Team, TeamMembers, TeamResponse, TeamState } from "./model/types";
