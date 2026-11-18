@@ -38,6 +38,8 @@ export interface Status {
   color: string;
   order: number;
   isDefault: boolean;
+  /** Marks a "finished" status; stats and the `done` filter rely on it */
+  isDone: boolean;
   version: number;
   createdAt: string;
   updatedAt: string | null;
@@ -99,6 +101,32 @@ export interface BoardCard {
   version: number;
   createdAt: string;
   updatedAt: string | null;
+}
+
+/** Card from GET /cards/my, with the context needed to show it outside its board */
+export interface MyCard extends BoardCard {
+  /** Null when the card's status was deleted */
+  status: Pick<Status, "id" | "name" | "code" | "color" | "isDone"> | null;
+  column: { id: string; name: string };
+  board: { id: string; name: string };
+  project: { id: string; name: string };
+  assigner: { id: string; name: string } | null;
+}
+
+/** GET /users/me/stats */
+export interface MyStats {
+  assignedCards: number;
+  doneCards: number;
+  openCards: number;
+  totalPoints: number;
+  donePoints: number;
+  /** In status order; name and color are null for cards without a status */
+  byStatus: {
+    statusId: string | null;
+    name: string | null;
+    color: string | null;
+    count: number;
+  }[];
 }
 
 export interface BoardDetails {

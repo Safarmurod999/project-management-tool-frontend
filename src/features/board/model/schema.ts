@@ -86,6 +86,7 @@ export const createStatusSchema = z.object({
   color: statusColorSchema,
   order: z.number().int().min(0).optional(),
   isDefault: z.boolean().optional(),
+  isDone: z.boolean().optional(),
 });
 
 export const updateStatusSchema = createStatusSchema

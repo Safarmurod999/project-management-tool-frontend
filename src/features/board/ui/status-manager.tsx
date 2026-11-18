@@ -10,6 +10,7 @@ import {
   Loader,
   Modal,
   Stack,
+  Switch,
   Text,
   TextInput,
   Tooltip,
@@ -34,7 +35,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { Edit, GripVertical, Plus, Trash2 } from "lucide-react";
+import { CheckCircle2, Edit, GripVertical, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
 import type { Status } from "@/entities/board";
 import { Access, useAccess } from "@/entities/user";
@@ -268,6 +269,17 @@ function StatusRow({ status, sortable, onEdit, onDelete }: StatusRowProps) {
               Standart
             </Badge>
           ) : null}
+
+          {status.isDone ? (
+            <Badge
+              size="xs"
+              variant="light"
+              color="teal"
+              leftSection={<CheckCircle2 size={10} />}
+            >
+              Tugagan
+            </Badge>
+          ) : null}
         </Group>
 
         <Group gap={4} wrap="nowrap">
@@ -295,6 +307,7 @@ function StatusRow({ status, sortable, onEdit, onDelete }: StatusRowProps) {
 type StatusFormValues = {
   name: string;
   color: string;
+  isDone: boolean;
 };
 
 interface StatusFormProps {
@@ -313,6 +326,7 @@ function StatusForm({ projectId, status, nextOrder, onSuccess }: StatusFormProps
     initialValues: {
       name: status?.name ?? "",
       color: status?.color ?? DEFAULT_COLOR,
+      isDone: status?.isDone ?? false,
     },
     validate: createZodValidator(
       createStatusSchema.pick({ name: true, color: true }),
@@ -372,6 +386,12 @@ function StatusForm({ projectId, status, nextOrder, onSuccess }: StatusFormProps
           ]}
           required
           {...form.getInputProps("color")}
+        />
+
+        <Switch
+          label="Tugagan status"
+          description="Bu statusdagi vazifalar bajarilgan hisoblanadi"
+          {...form.getInputProps("isDone", { type: "checkbox" })}
         />
 
         <Group justify="flex-end">

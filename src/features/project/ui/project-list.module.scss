@@ -1,6 +1,10 @@
 .card {
+  cursor: pointer;
+  height: 100%;
+
   &:hover {
-    border-color: var(--mantine-color-gray-4);
-    cursor: pointer;
+    border-color: var(--mantine-color-brand-light-color);
+    box-shadow: var(--mantine-shadow-md);
+    transform: translateY(-2px);
   }
 }

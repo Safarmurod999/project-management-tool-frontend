@@ -140,7 +140,7 @@ export function TeamList() {
                 <Group gap="sm">
                   <Users
                     size={20}
-                    color="var(--mantine-color-blue-6)"
+                    color="var(--mantine-color-brand-6)"
                   />
 
                   <Text fw={500} size="lg">

@@ -12,7 +12,7 @@ export function TasksPage() {
         ]}
         title="Vazifalar"
         description="Barcha vazifalar va ularning o'tkazilishi"
-        icon={<ListChecks size={32} color="var(--mantine-color-blue-6)" />}
+        icon={<ListChecks size={22} />}
       />
 
       <Card padding="xl" radius="md" withBorder>

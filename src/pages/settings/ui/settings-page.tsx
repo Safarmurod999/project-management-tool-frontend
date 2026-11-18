@@ -12,7 +12,7 @@ export function SettingsPage() {
         ]}
         title="Sozlamalar"
         description="Loyiha va account sozlamalari"
-        icon={<Settings size={32} color="var(--mantine-color-blue-6)" />}
+        icon={<Settings size={22} />}
       />
 
       <Card padding="xl" radius="md" withBorder>
