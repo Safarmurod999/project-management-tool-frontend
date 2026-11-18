@@ -3,4 +3,8 @@ export { createProjectSchema, updateProjectSchema } from './model/schema';
 export type { CreateProjectFormData, UpdateProjectFormData } from './model/schema';
 export { ProjectList } from './ui/project-list';
 export { ProjectView } from './ui/project-view';
+export { ProjectBoards } from './ui/project-boards';
+export { ProjectMembers } from './ui/project-members';
+export { ProjectActivity } from './ui/project-activity';
+export { ProjectSettings } from './ui/project-settings';
 export { CreateProjectForm } from './ui/create-project-form';

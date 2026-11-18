@@ -30,6 +30,11 @@ Modern loyiha boshqaruv vositasi uchun frontend ilovasi. **Feature-Sliced Design
 - ✅ **Routing** - React Router v7
 - ✅ **Code Quality** - Biome linter va formatter
 - ✅ **FSD Architecture** - Feature-Sliced Design metodologiyasi
+- ✅ **Kanban Boardlar** - Ustunlar, vazifalar va drag-and-drop (`@dnd-kit`)
+- ✅ **Dinamik Statuslar** - Loyiha statuslari, ustunga biriktirish va tartiblash
+- ✅ **Workflow** - Statuslar orasidagi o'tish qoidalari; kanban va vazifa oynasi faqat ruxsat etilgan o'tishlarni taklif qiladi
+- ✅ **Real-time** - Socket.IO orqali status, workflow va board o'zgarishlari
+- ✅ **Ruxsatlar** - Backend rol/permission qoidalariga mos UI (`entities/user/model/access.ts`)
 
 ## 🛠 Texnologiyalar
 
@@ -57,6 +62,7 @@ Modern loyiha boshqaruv vositasi uchun frontend ilovasi. **Feature-Sliced Design
 ### HTTP & API
 - **Axios 1.13** - HTTP client
 - **axios-auth-refresh 3.3** - Token refresh logikasi
+- **socket.io-client 4.8** - Real-time hodisalar (`shared/api/socket.ts`)
 
 ### Developer Experience
 - **Biome 2.3** - Linting va formatting

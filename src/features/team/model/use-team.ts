@@ -9,7 +9,11 @@ export const useTeamCreate = () => {
   return useMutation({
     mutationFn: (data: CreateTeamFormData) => teamApi.create(data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["teams"] });
+      queryClient.invalidateQueries({
+        predicate: (query) => {
+          return query.queryKey[0] === "teams";
+        },
+      });
     },
   });
 };
@@ -28,6 +32,25 @@ export const useTeams = () => {
         return response.data;
       } finally {
         setLoading(false);
+      }
+    },
+  });
+};
+
+export const useTeamMembers = (id: string) => {
+  const setTeamMembers = useTeamStore((state) => state.setTeamMembers);
+
+  return useQuery({
+    queryKey: ["team-members"],
+
+    queryFn: async () => {
+      try {
+        const response = await teamApi.getAllMembers(id);
+        setTeamMembers(response.data);
+        return response.data;
+      } catch (error) {
+        console.error("Failed to fetch team members:", error);
+        throw error;
       }
     },
   });

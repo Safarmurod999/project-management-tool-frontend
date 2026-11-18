@@ -34,9 +34,18 @@ export interface RefreshTokenResponse {
   data: string; // JWT access token
 }
 
+export interface UsersResponse {
+  success: boolean;
+  status: number;
+  data: User[];
+}
+
+
 export interface AuthState {
   user: User | null;
+  users: User[];
   isAuthenticated: boolean;
   setUser: (user: User | null) => void;
+  setUsers: (users: User[]) => void;
   logout: () => void;
 }
